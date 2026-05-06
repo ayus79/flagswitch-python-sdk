@@ -1,6 +1,6 @@
 # FlagSwitch Python SDK
 
-Python SDK for [FlagSwitch] — feature flag management.
+Python SDK for FlagSwitch — feature flag management.
 
 ## Install
 
