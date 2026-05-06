@@ -1,4 +1,4 @@
-from flagswitch_sdk.client import FlagSwitch
+from flagswitch_sdk.client import FlagSwitch, FlagSwitchSync
 from flagswitch_sdk.exceptions import (
     FlagSwitchConnectionError,
     FlagSwitchError,
@@ -7,6 +7,7 @@ from flagswitch_sdk.exceptions import (
 
 __all__ = [
     "FlagSwitch",
+    "FlagSwitchSync",
     "FlagSwitchError",
     "InvalidApiKeyError",
     "FlagSwitchConnectionError",
