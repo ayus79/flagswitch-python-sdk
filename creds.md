@@ -1,5 +1,8 @@
-regenerate dist:
-cd /Users/ayushcontractor/Desktop/flagswitch-sdk && python3 -m build
+update dist:
+pip3 install build
+rm -rf dist
+python3 -m build
+
 
 push to pypi:
 pip3 install twine
