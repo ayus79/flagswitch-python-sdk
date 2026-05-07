@@ -3,7 +3,11 @@ from typing import Any
 
 import httpx
 
-from flagswitch_sdk.exceptions import FlagSwitchConnectionError, InvalidApiKeyError
+from flagswitch_sdk.exceptions import (
+    EnvironmentNotFoundError,
+    FlagSwitchConnectionError,
+    InvalidApiKeyError,
+)
 
 
 _BASE_URL = "http://localhost:8010/api/fs"
@@ -11,8 +15,9 @@ _CACHE_TTL = 30
 
 
 class FlagSwitch:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, environment: str):
         self._api_key = api_key
+        self._environment = environment
         self._cache_ttl = _CACHE_TTL
         self._cache: dict[str, Any] = {}
         self._cache_ts: float = 0
@@ -26,6 +31,7 @@ class FlagSwitch:
                 response = await http.get(
                     f"{_BASE_URL}/evaluate",
                     headers={"X-Api-Key": self._api_key},
+                    params={"environment": self._environment},
                     timeout=5.0,
                 )
         except httpx.RequestError as e:
@@ -33,6 +39,11 @@ class FlagSwitch:
 
         if response.status_code == 401:
             raise InvalidApiKeyError("Invalid or inactive API key.")
+
+        if response.status_code == 404:
+            raise EnvironmentNotFoundError(
+                f"Environment '{self._environment}' not found for this project."
+            )
 
         if response.status_code != 200:
             raise FlagSwitchConnectionError(
@@ -64,8 +75,9 @@ class FlagSwitch:
 
 
 class FlagSwitchSync:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, environment: str):
         self._api_key = api_key
+        self._environment = environment
         self._cache_ttl = _CACHE_TTL
         self._cache: dict[str, Any] = {}
         self._cache_ts: float = 0
@@ -79,6 +91,7 @@ class FlagSwitchSync:
                 response = http.get(
                     f"{_BASE_URL}/evaluate",
                     headers={"X-Api-Key": self._api_key},
+                    params={"environment": self._environment},
                     timeout=5.0,
                 )
         except httpx.RequestError as e:
@@ -86,6 +99,11 @@ class FlagSwitchSync:
 
         if response.status_code == 401:
             raise InvalidApiKeyError("Invalid or inactive API key.")
+
+        if response.status_code == 404:
+            raise EnvironmentNotFoundError(
+                f"Environment '{self._environment}' not found for this project."
+            )
 
         if response.status_code != 200:
             raise FlagSwitchConnectionError(
