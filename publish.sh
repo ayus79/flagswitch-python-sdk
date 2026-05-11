@@ -1,12 +1,12 @@
 #!/bin/bash
+set -e
 
-PYPI_TOKEN="pypi-AgEIcHlwaS5vcmcCJDJkM2Y4N2Q3LTY4ZjUtNDk3OC04MGM0LWQwNDUxMjk5OTI2YwACKlszLCJkNjg5OWQ4NC0wMDAzLTQ4ZDQtOTY0ZC1kOGEwMjUwNGM3OGIiXQAABiAGkjK8MblnUD7W0ASWtaQqJJTvHhO0TlHgS0KZtDOLbw"
+source "$HOME/.cargo/env"
 
 echo "Building..."
-rm -rf dist
-python3 -m build
+maturin build --release --interpreter python3.11 python3.12 python3.13
 
 echo "Uploading to PyPI..."
-python3 -m twine upload dist/* -u __token__ -p $PYPI_TOKEN
+python3 -m twine upload target/wheels/*.whl --username __token__ --password "$PYPI_TOKEN"
 
 echo "Done!"

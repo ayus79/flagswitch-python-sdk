@@ -1,4 +1,4 @@
-__version__ = "0.3.0"
+__version__ = "0.4.3"
 __author__ = "FlagSwitch"
 
 from flagswitch_sdk.client import FlagSwitch, FlagSwitchSync

@@ -1,0 +1,19 @@
+[package]
+name = "flagswitch-sdk"
+version = "0.3.0"
+edition = "2021"
+
+[lib]
+name = "flagswitch_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.23", features = ["extension-module"] }
+reqwest = { version = "0.12", features = ["blocking", "json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

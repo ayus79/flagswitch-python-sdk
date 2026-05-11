@@ -1,14 +1,15 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
 
 [project]
 name = "flagswitch-sdk"
-version = "0.3.0"
+version = "0.4.3"
 description = "Python SDK for FlagSwitch feature flag management"
 requires-python = ">=3.11"
-dependencies = ["httpx>=0.27"]
+dependencies = []
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["flagswitch_sdk*"]
+[tool.maturin]
+python-source = "."
+module-name = "flagswitch_sdk.flagswitch_core"
+features = ["pyo3/extension-module"]
